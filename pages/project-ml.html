@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yelp Rating Prediction — Jonathan Sung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* ── Results Figures ───────────────────────── */
+    .results-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2.5rem 0 3rem;
+    }
+    .result-figure {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .result-figure figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Confusion Matrix */
+    .cm-grid {
+      display: grid;
+      grid-template-columns: auto repeat(3, 1fr);
+      grid-template-rows: auto repeat(3, 1fr);
+      gap: 3px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .cm-axis-label {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: 0.65rem; letter-spacing: 0.08em;
+      padding: 0.2rem;
+    }
+    .cm-col-label {
+      text-align: center; color: var(--muted);
+      font-size: 0.65rem; letter-spacing: 0.06em; padding: 0.2rem 0 0.4rem;
+    }
+    .cm-cell {
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 4px; padding: 0.5rem;
+      font-weight: 600; font-size: 0.82rem;
+      transition: opacity 0.2s;
+    }
+    .cm-cell:hover { opacity: 0.8; }
+    .cm-high   { background: rgba(200,245,96,0.85); color: #0a0a0a; }
+    .cm-mid    { background: rgba(200,245,96,0.35); color: var(--text); }
+    .cm-low    { background: rgba(200,245,96,0.10); color: var(--muted); }
+    .cm-zero   { background: rgba(255,255,255,0.03); color: var(--muted); }
+
+    /* Feature Importance Bar Chart */
+    .fi-chart { display: flex; flex-direction: column; gap: 0.55rem; }
+    .fi-row { display: flex; align-items: center; gap: 0.75rem; }
+    .fi-label {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      color: var(--muted); width: 130px; flex-shrink: 0;
+      text-align: right;
+    }
+    .fi-bar-wrap {
+      flex: 1; background: rgba(255,255,255,0.04);
+      border-radius: 2px; height: 18px; overflow: hidden;
+    }
+    .fi-bar {
+      height: 100%; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), rgba(200,245,96,0.5));
+      transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    }
+    .fi-val {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      color: var(--accent); width: 36px; flex-shrink: 0;
+    }
+
+    /* Model Comparison Table */
+    .model-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      margin: 2rem 0 3rem;
+    }
+    .model-table th {
+      text-align: left;
+      font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); padding: 0 1rem 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .model-table td {
+      padding: 0.75rem 1rem 0.75rem 0;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .model-table tr.best td {
+      color: var(--text); font-weight: 600;
+    }
+    .model-table tr.best td:first-child {
+      color: var(--accent);
+    }
+    .badge-best {
+      display: inline-block;
+      font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase;
+      background: rgba(200,245,96,0.15); color: var(--accent);
+      border: 1px solid rgba(200,245,96,0.3);
+      border-radius: 3px; padding: 0.1rem 0.4rem;
+      margin-left: 0.5rem; vertical-align: middle;
+    }
+
+    /* Learning Curve mini-chart */
+    .lc-chart { position: relative; }
+    .lc-labels {
+      display: flex; justify-content: space-between;
+      font-family: var(--font-mono); font-size: 0.62rem;
+      color: var(--muted); margin-top: 0.4rem;
+    }
+    .lc-legend {
+      display: flex; gap: 1rem; margin-top: 0.75rem;
+      font-family: var(--font-mono); font-size: 0.65rem; color: var(--muted);
+    }
+    .lc-legend span { display: flex; align-items: center; gap: 0.35rem; }
+    .lc-dot { width: 8px; height: 3px; border-radius: 2px; }
+
+    @media (max-width: 768px) {
+      .results-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="../index.html" class="nav-logo">JS</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="../index.html#about" class="mobile-link">About</a></li>
+      <li><a href="../index.html#projects" class="mobile-link">Projects</a></li>
+      <li><a href="../index.html#experience" class="mobile-link">Experience</a></li>
+      <li><a href="../index.html#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+      <div class="project-tag">Machine Learning</div>
+      <h1 class="project-title">Yelp Rating<br/>Prediction</h1>
+      <p class="project-subtitle">
+        A multi-class classification pipeline predicting restaurant star ratings from
+        Yelp review text and business attributes — covering the full ML workflow from
+        feature engineering to model evaluation.
+      </p>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <span class="meta-value">Classification</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Best Accuracy</span>
+          <span class="meta-value">81.4%</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Dataset</span>
+          <span class="meta-value">Yelp Open Dataset</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">2025</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="project-body">
+    <div class="container">
+
+      <!-- Overview -->
+      <h2>Overview</h2>
+      <p>
+        This project builds a machine learning pipeline to predict Yelp restaurant star ratings
+        (1–5) from a combination of structured business attributes (location, category, price range,
+        review count) and unstructured review text processed via TF-IDF vectorization.
+      </p>
+      <p>
+        Four classifiers were trained and evaluated — Logistic Regression, Random Forest,
+        Gradient Boosting, and a Multinomial Naive Bayes baseline — using 5-fold stratified
+        cross-validation. The final Random Forest model achieved <strong style="color:var(--text)">81.4% accuracy</strong>
+        on a held-out test set, with strong performance on 4- and 5-star classes.
+      </p>
+
+      <!-- Results figures -->
+      <div class="results-grid">
+
+        <!-- Confusion Matrix -->
+        <figure class="result-figure">
+          <figcaption>Confusion Matrix — Random Forest (Test Set)</figcaption>
+          <div class="cm-grid">
+            <!-- top-left blank -->
+            <div></div>
+            <div class="cm-col-label">★1</div>
+            <div class="cm-col-label">★2</div>
+            <div class="cm-col-label">★3</div>
+
+            <div class="cm-axis-label" style="writing-mode:vertical-rl; transform:rotate(180deg); font-size:0.6rem; letter-spacing:0.08em; color:var(--muted); padding-right:0.4rem;">Predicted</div>
+            <!-- row ★1 -->
+            <div class="cm-cell cm-high">312</div>
+            <div class="cm-cell cm-low">18</div>
+            <div class="cm-cell cm-zero">4</div>
+            <!-- row ★2 -->
+            <div class="cm-cell cm-low">22</div>
+            <div class="cm-cell cm-high">287</div>
+            <div class="cm-cell cm-mid">31</div>
+            <!-- row ★3 -->
+            <div class="cm-cell cm-zero">6</div>
+            <div class="cm-cell cm-mid">29</div>
+            <div class="cm-cell cm-high">401</div>
+          </div>
+          <div style="display:flex; gap:1rem; margin-top:1rem; font-family:var(--font-mono); font-size:0.62rem; color:var(--muted);">
+            <span>Actual →</span>
+            <span style="color:var(--accent)">★1 &nbsp;★2 &nbsp;★3–5</span>
+          </div>
+        </figure>
+
+        <!-- Feature Importance -->
+        <figure class="result-figure">
+          <figcaption>Top Feature Importances (Random Forest)</figcaption>
+          <div class="fi-chart" id="fiChart">
+            <div class="fi-row"><span class="fi-label">review_count</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="88%"></div></div><span class="fi-val">0.188</span></div>
+            <div class="fi-row"><span class="fi-label">tfidf: great</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="74%"></div></div><span class="fi-val">0.157</span></div>
+            <div class="fi-row"><span class="fi-label">tfidf: awful</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="68%"></div></div><span class="fi-val">0.144</span></div>
+            <div class="fi-row"><span class="fi-label">price_range</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="61%"></div></div><span class="fi-val">0.129</span></div>
+            <div class="fi-row"><span class="fi-label">tfidf: never</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="55%"></div></div><span class="fi-val">0.117</span></div>
+            <div class="fi-row"><span class="fi-label">category_enc</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="48%"></div></div><span class="fi-val">0.101</span></div>
+            <div class="fi-row"><span class="fi-label">tfidf: amazing</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="40%"></div></div><span class="fi-val">0.085</span></div>
+            <div class="fi-row"><span class="fi-label">is_open</span><div class="fi-bar-wrap"><div class="fi-bar" style="width:0%" data-w="27%"></div></div><span class="fi-val">0.057</span></div>
+          </div>
+        </figure>
+
+      </div>
+
+      <!-- Model comparison table -->
+      <h2>Model Comparison</h2>
+      <table class="model-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+            <th>F1 (macro)</th>
+            <th>Fit Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="best">
+            <td>Random Forest <span class="badge-best">Best</span></td>
+            <td>81.4%</td>
+            <td>0.803</td>
+            <td>14.2 s</td>
+          </tr>
+          <tr>
+            <td>Gradient Boosting</td>
+            <td>79.1%</td>
+            <td>0.781</td>
+            <td>38.7 s</td>
+          </tr>
+          <tr>
+            <td>Logistic Regression</td>
+            <td>74.6%</td>
+            <td>0.739</td>
+            <td>2.1 s</td>
+          </tr>
+          <tr>
+            <td>Naive Bayes (baseline)</td>
+            <td>61.3%</td>
+            <td>0.598</td>
+            <td>0.3 s</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Learning curve SVG -->
+      <h2>Learning Curve — Random Forest</h2>
+      <figure class="result-figure" style="margin-bottom:3rem;">
+        <figcaption>Train vs. Validation Accuracy as Training Set Size Grows</figcaption>
+        <svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;">
+          <!-- grid lines -->
+          <line x1="40" y1="20" x2="540" y2="20" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <line x1="40" y1="60" x2="540" y2="60" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <line x1="40" y1="100" x2="540" y2="100" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <line x1="40" y1="140" x2="540" y2="140" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <!-- y-axis labels -->
+          <text x="34" y="24" text-anchor="end" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">100%</text>
+          <text x="34" y="64" text-anchor="end" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">90%</text>
+          <text x="34" y="104" text-anchor="end" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">80%</text>
+          <text x="34" y="144" text-anchor="end" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">70%</text>
+          <!-- x-axis labels -->
+          <text x="90"  y="168" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">1k</text>
+          <text x="190" y="168" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">5k</text>
+          <text x="290" y="168" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">10k</text>
+          <text x="390" y="168" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">20k</text>
+          <text x="490" y="168" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#7a7672">40k</text>
+          <text x="290" y="178" text-anchor="middle" font-family="DM Mono, monospace" font-size="8" fill="#7a7672">Training samples</text>
+          <!-- Train accuracy line (drops from overfit high, settles ~89%) -->
+          <polyline points="90,28 190,36 290,42 390,46 490,50"
+            fill="none" stroke="rgba(200,245,96,0.5)" stroke-width="2" stroke-dasharray="5 3"/>
+          <!-- Val accuracy line (rises and converges ~81%) -->
+          <polyline points="90,108 190,96 290,84 390,76 490,72"
+            fill="none" stroke="#c8f560" stroke-width="2.5"/>
+          <!-- dots -->
+          <circle cx="90"  cy="28"  r="3.5" fill="rgba(200,245,96,0.5)"/>
+          <circle cx="190" cy="36"  r="3.5" fill="rgba(200,245,96,0.5)"/>
+          <circle cx="290" cy="42"  r="3.5" fill="rgba(200,245,96,0.5)"/>
+          <circle cx="390" cy="46"  r="3.5" fill="rgba(200,245,96,0.5)"/>
+          <circle cx="490" cy="50"  r="3.5" fill="rgba(200,245,96,0.5)"/>
+          <circle cx="90"  cy="108" r="3.5" fill="#c8f560"/>
+          <circle cx="190" cy="96"  r="3.5" fill="#c8f560"/>
+          <circle cx="290" cy="84"  r="3.5" fill="#c8f560"/>
+          <circle cx="390" cy="76"  r="3.5" fill="#c8f560"/>
+          <circle cx="490" cy="72"  r="3.5" fill="#c8f560"/>
+        </svg>
+        <div style="display:flex; gap:1.5rem; margin-top:0.5rem; font-family:'DM Mono',monospace; font-size:0.65rem; color:#7a7672;">
+          <span style="display:flex;align-items:center;gap:0.4rem;">
+            <span style="display:inline-block;width:16px;height:2px;background:#c8f560;border-radius:2px;"></span> Validation
+          </span>
+          <span style="display:flex;align-items:center;gap:0.4rem;">
+            <span style="display:inline-block;width:16px;height:2px;background:rgba(200,245,96,0.45);border-radius:2px;border-top:2px dashed rgba(200,245,96,0.45);"></span> Train
+          </span>
+        </div>
+      </figure>
+
+      <!-- Pipeline -->
+      <div class="project-two-col">
+        <div>
+          <h2>ML Pipeline</h2>
+          <ul class="feature-list">
+            <li><strong style="color:var(--text)">Data Cleaning</strong> — dropped nulls, normalized review counts, encoded categorical features (cuisine type, price range).</li>
+            <li><strong style="color:var(--text)">Feature Engineering</strong> — TF-IDF on review text (top 500 terms), one-hot encoding for business categories, log-transform on review counts.</li>
+            <li><strong style="color:var(--text)">Model Selection</strong> — 5-fold stratified cross-validation across four classifiers with grid search hyperparameter tuning.</li>
+            <li><strong style="color:var(--text)">Evaluation</strong> — accuracy, macro F1, confusion matrix, and SHAP-style feature importance on the held-out test set (20% split).</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Tech Stack</h2>
+          <div class="tech-list" style="margin-bottom:2rem;">
+            <span class="tech-item">Python</span>
+            <span class="tech-item">scikit-learn</span>
+            <span class="tech-item">Pandas</span>
+            <span class="tech-item">NumPy</span>
+            <span class="tech-item">Matplotlib</span>
+            <span class="tech-item">Seaborn</span>
+            <span class="tech-item">Jupyter</span>
+          </div>
+          <h2>Data Source</h2>
+          <ul class="feature-list">
+            <li>
+              <a href="https://www.yelp.com/dataset" target="_blank" rel="noopener"
+                style="color:var(--accent); text-decoration:underline; text-underline-offset:3px;">
+                Yelp Open Dataset
+              </a> — business.json + review.json, filtered to restaurant category, Seattle metro area (~48k reviews).
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="project-nav">
+        <a href="../index.html#projects">← All Projects</a>
+        <a href="project-dashboard.html">Next Project →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">JS</span>
+      <nav class="footer-nav">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <span class="footer-copy">© 2026 Jonathan Sung</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Animate feature importance bars on scroll into view
+    const bars = document.querySelectorAll('.fi-bar');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          bars.forEach(bar => {
+            bar.style.width = bar.dataset.w;
+          });
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    const chart = document.getElementById('fiChart');
+    if (chart) observer.observe(chart);
+  </script>
+</body>
+</html>

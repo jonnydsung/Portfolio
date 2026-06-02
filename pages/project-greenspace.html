@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GreenSpace Finder — Jonathan Sung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="../index.html" class="nav-logo">JS</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="../index.html#about" class="mobile-link">About</a></li>
+      <li><a href="../index.html#projects" class="mobile-link">Projects</a></li>
+      <li><a href="../index.html#experience" class="mobile-link">Experience</a></li>
+      <li><a href="../index.html#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+      <div class="project-tag">GIS / Geography</div>
+      <h1 class="project-title">GreenSpace<br/>Finder</h1>
+      <p class="project-subtitle">
+        Discover parks, trails, and community gardens near you — with walking distances,
+        amenity details, accessibility filters, and an interactive WebGIS map built for
+        community exploration of Seattle's green spaces.
+      </p>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <span class="meta-value">WebGIS Application</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Team</span>
+          <span class="meta-value">Jonny, Oswaldo, Nur, Rishi</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Course</span>
+          <span class="meta-value">GEOG 458</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Status</span>
+          <span class="meta-value">Complete</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="project-body">
+    <div class="container">
+
+      <!-- Live links -->
+      <div class="project-live-links">
+        <a href="https://jonnyjs2.github.io/ac5_final/map.html" target="_blank" rel="noopener" class="live-link">
+          ↗ Open the Map
+        </a>
+        <a href="https://jonnyjs2.github.io/ac5_final/sources.html" target="_blank" rel="noopener" class="live-link outline">
+          Data Sources ↗
+        </a>
+      </div>
+
+      <!-- Screenshots placeholder -->
+      <div class="greenspace-image" style="aspect-ratio:16/8;">
+        <img
+          src="../img/greenspace.png"
+          alt="Greenspace Map Preview"
+          style="width:100%; height:100%; object-fit:cover;"
+        >
+      </div>
+
+      <!-- Overview -->
+      <h2>Overview</h2>
+      <p>
+        GreenSpace Finder is a community-focused WebGIS application that helps Seattle residents
+        locate nearby public parks, trails, and community gardens. Users can explore green spaces
+        from their current location or by dropping a pin, then view rich detail panels showing
+        amenities, walking distances, and accessibility features.
+      </p>
+      <p>
+        Built as a team of four for GEOG 458 at the University of Washington, the app layers
+        City of Seattle park data, King County neighborhood boundaries, and OpenStreetMap
+        contributor data into a unified interactive map experience.
+      </p>
+
+      <!-- What you can do + Tips -->
+      <div class="project-two-col">
+        <div>
+          <h2>What You Can Do</h2>
+          <ul class="feature-list">
+            <li>
+              <strong style="color:var(--text)">Find Nearby Parks</strong> — search from your
+              current location or drop a pin to discover green spaces within walking distance.
+            </li>
+            <li>
+              <strong style="color:var(--text)">See Amenities</strong> — view restroom
+              availability, playgrounds, picnic areas, dog-friendly zones, and public transit access.
+            </li>
+            <li>
+              <strong style="color:var(--text)">Plan Accessible Trips</strong> — filter parks by
+              accessibility features and walking route difficulty to plan inclusive visits.
+            </li>
+          </ul>
+
+          <h2 style="margin-top:2rem;">Tips for Using the Map</h2>
+          <ul class="feature-list">
+            <li>Click any park on the map to open the detail panel with photos, distances, and amenity list.</li>
+            <li>Use the filter button to show/hide playgrounds, trails, and dog-friendly areas.</li>
+            <li>If you spot an error in a park's data, check the Sources page to learn how to report it.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Tools &amp; Libraries</h2>
+          <div class="tech-list" style="margin-bottom:2rem;">
+            <span class="tech-item">Mapbox GL JS</span>
+            <span class="tech-item">Turf.js</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">HTML / CSS</span>
+            <span class="tech-item">GeoJSON</span>
+            <span class="tech-item">Fetch API</span>
+          </div>
+
+          <h2>Spatial Analysis</h2>
+          <ul class="feature-list">
+            <li><strong style="color:var(--text)">Turf.js buffers</strong> — compute walkable radius zones around each park.</li>
+            <li><strong style="color:var(--text)">Turf.js nearest</strong> — find the closest park to a dropped pin or current location.</li>
+            <li><strong style="color:var(--text)">Turf.js distance</strong> — calculate precise walking distances in meters between user and park.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Data Sources -->
+      <h2>Data Sources</h2>
+      <div class="credit-block">
+        <p style="font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:0.75rem;">Datasets</p>
+        <p>
+          <strong style="color:var(--text)">Park Boundary Dataset</strong> —
+          <a href="https://data.seattle.gov" target="_blank" rel="noopener">City of Seattle Open Data Portal</a>.
+          Accessed Dec 5.
+        </p>
+        <p>
+          <strong style="color:var(--text)">Neighborhoods Dataset</strong> —
+          <a href="https://gis-kingcounty.opendata.arcgis.com" target="_blank" rel="noopener">King County GIS Open Data</a>.
+          Accessed Dec 5.
+        </p>
+        <p>
+          <strong style="color:var(--text)">Amenities / Trails / Additional Layers</strong> —
+          <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap Contributors</a>.
+          Accessed Dec 5.
+        </p>
+      </div>
+
+      <!-- Citations -->
+      <h2>Citations</h2>
+      <div class="credit-block">
+        <p>City of Seattle. <em style="color:var(--text)">Park Boundaries.</em> Seattle Open Data Portal, <a href="https://data.seattle.gov" target="_blank" rel="noopener">https://data.seattle.gov</a>. Accessed Dec 5.</p>
+        <p>King County GIS Center. <em style="color:var(--text)">Neighborhoods.</em> King County GIS Open Data, <a href="https://gis-kingcounty.opendata.arcgis.com" target="_blank" rel="noopener">https://gis-kingcounty.opendata.arcgis.com</a>. Accessed Dec 5.</p>
+        <p>OpenStreetMap Contributors. <em style="color:var(--text)">OpenStreetMap Data.</em> OpenStreetMap, <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">https://www.openstreetmap.org</a>. Accessed Dec 5.</p>
+      </div>
+
+      <!-- Footer credit -->
+      <div class="credit-block" style="border-color:rgba(200,245,96,0.12); text-align:center;">
+        <p style="font-size:0.75rem; color:var(--muted);">
+          Built for community &amp; outdoor exploration by Jonny, Oswaldo, Nur, and Rishi.
+        </p>
+      </div>
+
+      <div class="project-nav">
+        <a href="project-covidmap.html">← Previous Project</a>
+        <a href="../index.html#projects">← All Projects</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">JS</span>
+      <nav class="footer-nav">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <span class="footer-copy">© 2026 Jonathan Sung</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

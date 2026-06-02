@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jonathan Sung — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="site-wrapper">
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a href="index.html" class="nav-logo">JS</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#projects" class="mobile-link">Projects</a></li>
+      <li><a href="#experience" class="mobile-link">Experience</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <div class="hero-bg">
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow reveal">UW · Data Science · Seattle</p>
+      <h1 class="hero-name reveal delay-1">Jonathan<br/><span class="hero-name-dim">Sung</span></h1>
+      <p class="hero-tagline reveal delay-2">Data Scientist · Software Engineer · Full-Stack Developer</p>
+      <div class="hero-cta reveal delay-3">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-scroll reveal delay-4">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-label">— About</div>
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Bridging data<br/>and experience.</h2>
+          <p>I'm a BA Geography: Data Science student at the University of Washington with a minor in Business Administration. I work at the intersection of data analytics, full-stack development, and machine learning.</p>
+          <p>This portfolio documents my technical projects, research, and professional experience — built by hand, updated over time.</p>
+        </div>
+        <div class="about-skills">
+          <div class="skill-tag">Python</div>
+          <div class="skill-tag">SQL</div>
+          <div class="skill-tag">React</div>
+          <div class="skill-tag">Node.js</div>
+          <div class="skill-tag">Machine Learning</div>
+          <div class="skill-tag">Data Viz</div>
+          <div class="skill-tag">MySQL</div>
+          <div class="skill-tag">GIS / Geography</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS CAROUSEL -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="section-label">— Projects</div>
+      <h2 class="section-title">Selected Work</h2>
+    </div>
+
+    <div class="carousel-wrapper">
+      <div class="carousel-track" id="carouselTrack">
+
+        <div class="project-card" data-index="0">
+          <div class="card-number">01</div>
+          <div class="card-tag">Machine Learning</div>
+          <h3>Yelp Rating<br/>Prediction</h3>
+          <p>Multi-class classifier predicting Yelp restaurant star ratings from review text and business attributes. Random Forest achieved 81.4% accuracy across 48k Seattle reviews.</p>
+          <div class="card-stack">
+            <span>scikit-learn</span><span>Python</span><span>TF-IDF</span><span>Pandas</span>
+          </div>
+          <a href="pages/project-ml.html" class="card-btn">View Now →</a>
+        </div>
+
+        <div class="project-card" data-index="1">
+          <div class="card-number">02</div>
+          <div class="card-tag">Analytics</div>
+          <h3>Seattle Food<br/>Data Dashboard</h3>
+          <p>Smart interactive dashboard for exploring Seattle restaurants — live Mapbox map, C3.js charts, and Yelp-sourced data. Built collaboratively with a team of five.</p>
+          <div class="card-stack">
+            <span>Mapbox GL JS</span><span>C3.js</span><span>GeoJSON</span><span>JavaScript</span>
+          </div>
+          <a href="pages/project-dashboard.html" class="card-btn">View Now →</a>
+        </div>
+
+        <div class="project-card" data-index="2">
+          <div class="card-number">03</div>
+          <div class="card-tag">Full-Stack</div>
+          <h3>Route Optimization<br/>Dashboard</h3>
+          <p>Full-stack app built at Shoreline Capital — computes optimal truck routes via Dijkstra's algorithm over live OSM networks, visualizes them on an interactive map, and persists results to a database.</p>
+          <div class="card-stack">
+            <span>React</span><span>FastAPI</span><span>PostgreSQL</span><span>OSMnx</span>
+          </div>
+          <a href="pages/project-fullstack.html" class="card-btn">View Now →</a>
+        </div>
+
+        <div class="project-card" data-index="3">
+          <div class="card-number">04</div>
+          <div class="card-tag">GIS / Geography</div>
+          <h3>Washington State<br/>Wildfires Map</h3>
+          <p>Interactive web map of wildfire incidents across Washington State from 2008–2025, with year filtering, color-coded fire sizes, and a linked incident table.</p>
+          <div class="card-stack">
+            <span>Mapbox GL JS</span><span>GeoJSON</span><span>JavaScript</span>
+          </div>
+          <a href="pages/project-geo.html" class="card-btn">View Now →</a>
+        </div>
+
+        <div class="project-card" data-index="4">
+          <div class="card-number">05</div>
+          <div class="card-tag">GIS / Geography</div>
+          <h3>US COVID-19<br/>Choropleth Map</h3>
+          <p>County-level choropleth map of 2020 US COVID-19 rates built with Mapbox GL JS, GeoJSON, and an Albers Equal Area projection. Hover tooltips, color legend, and two live map views.</p>
+          <div class="card-stack">
+            <span>Mapbox GL JS</span><span>GeoJSON</span><span>JavaScript</span>
+          </div>
+          <a href="pages/project-covidmap.html" class="card-btn">View Now →</a>
+        </div>
+
+        <div class="project-card" data-index="5">
+          <div class="card-number">06</div>
+          <div class="card-tag">GIS / Geography</div>
+          <h3>GreenSpace<br/>Finder</h3>
+          <p>Community WebGIS app for discovering Seattle parks, trails, and gardens — with walking distances, amenity filters, and accessibility planning powered by Mapbox and Turf.js.</p>
+          <div class="card-stack">
+            <span>Mapbox GL JS</span><span>Turf.js</span><span>GeoJSON</span>
+          </div>
+          <a href="pages/project-greenspace.html" class="card-btn">View Now →</a>
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="carousel-btn" id="nextBtn" aria-label="Next">&#8594;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="experience">
+    <div class="container">
+      <div class="section-label">— Experience</div>
+      <h2 class="section-title">Where I've Worked</h2>
+      <div class="timeline">
+
+        <!-- Shoreline Capital -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-body">
+            <div class="timeline-role">Geospatial Logistics Optimization Intern</div>
+            <div class="timeline-company">Shoreline Capital · New York City, NY</div>
+            <div class="timeline-date">Jun 2025 – Aug 2025</div>
+            <ul class="timeline-bullets">
+              <li>Engineered a full-stack route optimization dashboard to compute, visualize, and store optimal truck routes using Dijkstra's algorithm weighted by real-time travel duration across OpenStreetMap (OSM) networks.</li>
+              <li>Built backend services in Python to ingest road network graph data, apply shortest-path computations, and persist route results to a relational database.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ADDD -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-body">
+            <div class="timeline-role">Geospatial Data Science &amp; Analytics Intern</div>
+            <div class="timeline-company">ADDD · Seoul, South Korea</div>
+            <div class="timeline-date">Jul 2024 – Sept 2024</div>
+            <ul class="timeline-bullets">
+              <li>Designed and deployed a data-driven web dashboard using React.js and MySQL to visualize and interact with 50,000+ records of structured spatial and behavioral data, improving data accessibility by 40% across internal teams.</li>
+              <li>Developed interactive web maps using GeoJSON and Mapbox GL JS to display location-based consumer behavior patterns, enabling spatial clustering analysis that informed targeted advertising strategy and contributed to a 15% increase in engagement performance.</li>
+              <li>Applied statistical modeling techniques in Python and R (regression analysis, clustering, feature engineering) to generate 10+ custom performance metrics, increasing analytical reporting efficiency by 30%.</li>
+              <li>Developed geospatial and temporal data visualizations, enabling leadership to identify key consumer behavior trends and optimize ad placement strategy.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Highlight Media Tech -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-body">
+            <div class="timeline-role">Data &amp; Application Development Intern</div>
+            <div class="timeline-company">Highlight Media Tech · New York City, NY</div>
+            <div class="timeline-date">Jun 2023 – Sept 2023</div>
+            <ul class="timeline-bullets">
+              <li>Developed interactive web and mobile interfaces used by 1,000+ active users, improving user engagement metrics by 25%.</li>
+              <li>Integrated structured data tracking mechanisms to monitor user interaction patterns, contributing to a 20% improvement in product optimization decisions.</li>
+              <li>Assisted in transforming raw data into interactive dashboards and visualization tools, reducing internal reporting turnaround time by 30%.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Hackers Education Group -->
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-body">
+            <div class="timeline-role">Analytical Skills &amp; Test Preparation Instructor</div>
+            <div class="timeline-company">Hackers Education Group · Seoul, South Korea</div>
+            <div class="timeline-date">Jun 2022 – Sept 2022</div>
+            <ul class="timeline-bullets">
+              <li>Instructed 60+ students on SAT/TOEFL preparation, achieving an average score improvement of 12–18% across standardized test sections.</li>
+              <li>Designed data-driven lesson plans tailored to individual performance metrics, improving targeted skill development outcomes.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-label">— Contact</div>
+      <h2 class="section-title">Let's Talk</h2>
+      <p class="contact-sub">Open to internships, collaborations, and interesting problems.</p>
+      <a href="mailto:jonnydsung@gmail.com" class="contact-email">jonnydsung@gmail.com</a>
+      <p class="contact-location">Seattle, WA</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">JS</span>
+      <nav class="footer-nav">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <span class="footer-copy">© 2026 Jonathan Sung</span>
+    </div>
+  </footer>
+
+</div><!-- /.site-wrapper -->
+  <script src="js/main.js"></script>
+</body>
+</html>

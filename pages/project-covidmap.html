@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>US COVID-19 Choropleth Map — Jonathan Sung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="../index.html" class="nav-logo">JS</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="../index.html#about" class="mobile-link">About</a></li>
+      <li><a href="../index.html#projects" class="mobile-link">Projects</a></li>
+      <li><a href="../index.html#experience" class="mobile-link">Experience</a></li>
+      <li><a href="../index.html#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+      <div class="project-tag">GIS / Geography</div>
+      <h1 class="project-title">US COVID-19 Rates<br/>Choropleth Map</h1>
+      <p class="project-subtitle">
+        An interactive county-level visualization of COVID-19 case rates across the United States for 2020,
+        built with Mapbox GL JS and an Albers Equal Area projection for accurate geographic representation.
+      </p>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <span class="meta-value">Geospatial Visualization</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Course</span>
+          <span class="meta-value">GEOG 458</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">2024</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Status</span>
+          <span class="meta-value">Complete</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="project-body">
+    <div class="container">
+
+      <!-- Live map links -->
+      <div class="project-live-links">
+        <a href="https://jonnyjs2.github.io/458lab3/map1.html" target="_blank" rel="noopener" class="live-link">
+          ↗ View Map 1
+        </a>
+        <a href="https://jonnyjs2.github.io/458lab3/map2.html" target="_blank" rel="noopener" class="live-link">
+          ↗ View Map 2
+        </a>
+      </div>
+
+      <!-- Preview embed -->
+      <div class="placeholder-image" style="aspect-ratio:16/8;">
+        <img
+          src="../img/covidmap.png"
+          alt="COVID Map Preview"
+          style="width:100%; height:100%; object-fit:cover;"
+        >
+      </div>
+
+      <!-- Overview -->
+      <h2>Overview</h2>
+      <p>
+        This project visualizes county-level COVID-19 rates across the United States for 2020 using an
+        interactive choropleth map. The map highlights the geographic distribution of COVID-19 cases
+        per 100,000 people, allowing users to explore regional disparities at a county level.
+      </p>
+      <p>
+        The map uses an <strong style="color:var(--text)">Albers Equal Area projection</strong> for accurate
+        area representation across the contiguous US — projection handling that was implemented independently,
+        beyond what was covered in the course lectures.
+        Users can hover over any county to see the county name, state, and COVID-19 rate in a live tooltip.
+      </p>
+
+      <!-- Features + Tools side by side -->
+      <div class="project-two-col">
+        <div>
+          <h2>Primary Functions</h2>
+          <ul class="feature-list">
+            <li><strong style="color:var(--text)">Interactive Choropleth</strong> — counties colored by COVID-19 case rate per 100k population.</li>
+            <li><strong style="color:var(--text)">Hover Tooltip</strong> — displays county name, state, and exact COVID-19 rate on mouseover.</li>
+            <li><strong style="color:var(--text)">Color Legend</strong> — color-coded legend for interpreting rate ranges at a glance.</li>
+            <li><strong style="color:var(--text)">Custom Projection</strong> — Albers Equal Area projection maintains accurate relative area across the US.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Libraries &amp; Tools</h2>
+          <div class="tech-list" style="margin-bottom:1.5rem;">
+            <span class="tech-item">Mapbox GL JS</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">HTML / CSS</span>
+            <span class="tech-item">GeoJSON</span>
+            <span class="tech-item">Mapbox Studio</span>
+          </div>
+          <h2>Data Sources</h2>
+          <ul class="feature-list">
+            <li>
+              <strong style="color:var(--text)">COVID-19 Data</strong> —
+              <a href="https://github.com/nytimes/covid-19-data" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline; text-underline-offset:3px;">
+                NY Times COVID-19 Dataset
+              </a> (2020 county-level)
+            </li>
+            <li>
+              <strong style="color:var(--text)">County Boundaries</strong> —
+              <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html" target="_blank" rel="noopener" style="color:var(--accent); text-decoration:underline; text-underline-offset:3px;">
+                US Census Bureau GeoJSON
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Credit -->
+      <h2>Credit &amp; Acknowledgment</h2>
+      <div class="credit-block">
+        <p>
+          <a href="https://docs.mapbox.com/mapbox-gl-js/" target="_blank" rel="noopener">Mapbox</a>
+          for providing the interactive mapping platform and styling tools.
+        </p>
+        <p>
+          <a href="https://github.com/nytimes/covid-19-data" target="_blank" rel="noopener">NY Times</a>
+          and the
+          <a href="https://www.census.gov/" target="_blank" rel="noopener">US Census Bureau</a>
+          for open COVID-19 and geographic boundary data.
+        </p>
+        <p>Project completed as part of GEOG 458 at the University of Washington.</p>
+      </div>
+
+      <!-- Page nav -->
+      <div class="project-nav">
+        <a href="project-geo.html">← Previous Project</a>
+        <a href="project-greenspace.html">Next Project →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">JS</span>
+      <nav class="footer-nav">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <span class="footer-copy">© 2026 Jonathan Sung</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

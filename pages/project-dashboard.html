@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seattle Food Data Dashboard — Jonathan Sung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="../index.html" class="nav-logo">JS</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="../index.html#about" class="mobile-link">About</a></li>
+      <li><a href="../index.html#projects" class="mobile-link">Projects</a></li>
+      <li><a href="../index.html#experience" class="mobile-link">Experience</a></li>
+      <li><a href="../index.html#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+      <div class="project-tag">Analytics</div>
+      <h1 class="project-title">Seattle Food<br/>Data Dashboard</h1>
+      <p class="project-subtitle">
+        A smart interactive dashboard helping Seattle residents explore local restaurants,
+        discover popular dining options, and compare attributes through live map and chart visualizations.
+      </p>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <span class="meta-value">Data Dashboard</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Team</span>
+          <span class="meta-value">5 Members</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Status</span>
+          <span class="meta-value">Complete</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Course</span>
+          <span class="meta-value">GEOG 458</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="project-body">
+    <div class="container">
+
+      <!-- Live link -->
+      <div class="project-live-links">
+        <a href="https://kridang.github.io/seattle-food-dashboard" target="_blank" rel="noopener" class="live-link">
+          ↗ View Live Dashboard
+        </a>
+      </div>
+
+      <!-- Team -->
+      <div class="credit-block" style="margin-bottom: 2.5rem;">
+        <p style="font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem;">Team</p>
+        <p>Kristy Dang &nbsp;·&nbsp; Jeffrey Junio &nbsp;·&nbsp; Jonny Sung &nbsp;·&nbsp; Paisley Wu &nbsp;·&nbsp; Allen Yuan</p>
+      </div>
+
+      <!-- Screenshots placeholder -->
+      <div class="placeholder-image" style="aspect-ratio:16/8;">
+        <img
+          src="../img/food-dashboard.png"
+          alt="Dashboard Map Preview"
+          style="width:100%; height:100%; object-fit:cover;"
+        >
+      </div>
+
+      <!-- Overview -->
+      <h2>Project Description</h2>
+      <p>
+        The Seattle Food Dashboard is a smart dashboard designed to help Seattle residents explore
+        restaurants across the city and identify places that match their preferences. Users can quickly
+        discover popular dining options and compare restaurant attributes through interactive visualizations
+        combining a live map with dynamic charts.
+      </p>
+
+      <!-- Features + Libraries side by side -->
+      <div class="project-two-col">
+        <div>
+          <h2>Applied Libraries</h2>
+          <ul class="feature-list">
+            <li>
+              <strong style="color:var(--text)">Mapbox</strong> — interactive basemap and restaurant
+              locations visualized as point features.
+            </li>
+            <li>
+              <strong style="color:var(--text)">C3.js</strong> — dashboard charts for comparing
+              restaurant attributes and distributions.
+            </li>
+            <li>
+              <strong style="color:var(--text)">GitHub</strong> — version control and hosted project
+              repository for team collaboration.
+            </li>
+            <li>
+              <strong style="color:var(--text)">Kaggle</strong> — platform used to access the Seattle
+              restaurant dataset sourced from the Yelp Business API.
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2>Tech Stack</h2>
+          <div class="tech-list" style="margin-bottom: 2rem;">
+            <span class="tech-item">Mapbox GL JS</span>
+            <span class="tech-item">C3.js</span>
+            <span class="tech-item">JavaScript</span>
+            <span class="tech-item">HTML / CSS</span>
+            <span class="tech-item">GeoJSON</span>
+          </div>
+
+          <h2>Data Sources</h2>
+          <ul class="feature-list">
+            <li>
+              <a href="https://www.kaggle.com/datasets/oklena/seattle-area-restaurants"
+                 target="_blank" rel="noopener"
+                 style="color:var(--accent); text-decoration:underline; text-underline-offset:3px;">
+                Kaggle — Seattle Area Restaurants
+              </a>
+              (collected from the Yelp Business API)
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <h2>Notes</h2>
+      <div class="credit-block">
+        <p style="font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem;">Data Currency</p>
+        <p>
+          This project relies on a dataset approximately 4 years old sourced from Kaggle,
+          originally derived from the Yelp Business API. Restaurant information displayed
+          in the dashboard may not reflect current listings or ratings.
+        </p>
+      </div>
+
+      <!-- Acknowledgment -->
+      <h2>Acknowledgment</h2>
+      <p>
+        Thank you to Professor Zhao and the teaching assistants for his guidance throughout
+        the development of this project. His support helped shape the design and technical
+        implementation of our visualization.
+      </p>
+
+      <!-- Page nav -->
+      <div class="project-nav">
+        <a href="project-ml.html">← Previous Project</a>
+        <a href="project-fullstack.html">Next Project →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">JS</span>
+      <nav class="footer-nav">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <span class="footer-copy">© 2026 Jonathan Sung</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

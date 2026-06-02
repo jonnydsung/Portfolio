@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Route Optimization Dashboard — Jonathan Sung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* ── Architecture Diagram ──────────────────── */
+    .arch-diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin: 2.5rem 0 3rem;
+      overflow-x: auto;
+    }
+    .arch-diagram figcaption {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.5rem;
+    }
+    .arch-row {
+      display: flex; align-items: center;
+      justify-content: center; gap: 0; flex-wrap: nowrap;
+      margin-bottom: 0.5rem;
+    }
+    .arch-box {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.6rem 1rem;
+      font-family: var(--font-mono); font-size: 0.72rem;
+      color: var(--text); text-align: center; white-space: nowrap;
+      min-width: 110px;
+    }
+    .arch-box.accent {
+      border-color: rgba(200,245,96,0.4);
+      background: rgba(200,245,96,0.06);
+      color: var(--accent);
+    }
+    .arch-box.dim { color: var(--muted); }
+    .arch-box sub {
+      display: block; font-size: 0.6rem;
+      color: var(--muted); margin-top: 0.15rem;
+    }
+    .arch-arrow {
+      font-size: 0.85rem; color: var(--muted);
+      padding: 0 0.5rem; flex-shrink: 0;
+    }
+    .arch-divider {
+      width: 100%; height: 1px;
+      background: var(--border); margin: 0.75rem 0;
+    }
+
+    /* ── Stats row ──────────────────────────────── */
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin: 2.5rem 0 3rem;
+    }
+    .stat-cell {
+      background: var(--surface); padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-val {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 2rem; letter-spacing: -0.03em;
+      color: var(--accent); display: block; line-height: 1.1;
+    }
+    .stat-label {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-top: 0.35rem; display: block;
+    }
+
+    @media (max-width: 600px) {
+      .stat-row { grid-template-columns: 1fr; }
+      .arch-row { flex-wrap: wrap; justify-content: flex-start; gap: 0.4rem; }
+      .arch-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a href="../index.html" class="nav-logo">JS</a>
+    <ul class="nav-links">
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="../index.html#about" class="mobile-link">About</a></li>
+      <li><a href="../index.html#projects" class="mobile-link">Projects</a></li>
+      <li><a href="../index.html#experience" class="mobile-link">Experience</a></li>
+      <li><a href="../index.html#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+      <div class="project-tag">Full-Stack</div>
+      <h1 class="project-title">Route Optimization<br/>Dashboard</h1>
+      <p class="project-subtitle">
+        A full-stack web application built at Shoreline Capital that computes, visualizes,
+        and stores optimal truck delivery routes using Dijkstra's algorithm over live
+        OpenStreetMap road networks.
+      </p>
+      <div class="project-meta">
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <span class="meta-value">Full-Stack App</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Context</span>
+          <span class="meta-value">Internship — Shoreline Capital</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Year</span>
+          <span class="meta-value">2025</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Status</span>
+          <span class="meta-value">Deployed</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="project-body">
+    <div class="container">
+
+      <!-- Preview embed -->
+      <div class="placeholder-image" style="aspect-ratio:16/8;">
+        <img
+          src="../img/route.png"
+          alt="Route Map Preview"
+          style="width:100%; height:100%; object-fit:cover;"
+        >
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-cell">
+          <span class="stat-val">OSM</span>
+          <span class="stat-label">Road Network Source</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-val">Dijkstra</span>
+          <span class="stat-label">Pathfinding Algorithm</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-val">Real-Time</span>
+          <span class="stat-label">Travel Duration Weighting</span>
+        </div>
+      </div>
+
+      <!-- Overview -->
+      <h2>Overview</h2>
+      <p>
+        Built during my internship at Shoreline Capital, this full-stack dashboard allows logistics
+        teams to compute optimal truck delivery routes across a city road network, visualize them
+        interactively on a map, and persist results for later review and reporting.
+      </p>
+      <p>
+        The backend ingests OpenStreetMap road graph data, applies Dijkstra's shortest-path algorithm
+        weighted by real-time travel duration (not just distance), and stores computed routes in a
+        relational database. The frontend renders the results as an interactive map with route
+        overlays and a tabular route summary panel.
+      </p>
+
+      <!-- Architecture diagram -->
+      <figure class="arch-diagram">
+        <figcaption>System Architecture</figcaption>
+
+        <div class="arch-row">
+          <div class="arch-box accent">React Frontend<sub>Map UI + Route Table</sub></div>
+          <div class="arch-arrow">⟷</div>
+          <div class="arch-box accent">FastAPI Backend<sub>REST Endpoints</sub></div>
+          <div class="arch-arrow">⟷</div>
+          <div class="arch-box accent">PostgreSQL<sub>Route Storage</sub></div>
+        </div>
+        <div class="arch-divider"></div>
+        <div class="arch-row">
+          <div class="arch-box dim">OSM Road Graph<sub>NetworkX / OSMnx</sub></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box dim">Dijkstra Engine<sub>Duration-Weighted</sub></div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-box dim">Route GeoJSON<sub>Leaflet Overlay</sub></div>
+        </div>
+      </figure>
+
+      <!-- Features + Stack -->
+      <div class="project-two-col">
+        <div>
+          <h2>Key Features</h2>
+          <ul class="feature-list">
+            <li><strong style="color:var(--text)">Dijkstra Routing</strong> — shortest-path computation over OSM graph edges, weighted by real-time travel duration fetched from a live traffic API.</li>
+            <li><strong style="color:var(--text)">Interactive Map</strong> — route overlays rendered with Leaflet; clicking a route segment highlights it and shows segment-level travel time.</li>
+            <li><strong style="color:var(--text)">Route Persistence</strong> — computed routes serialized as GeoJSON and stored in PostgreSQL for audit trails and reporting.</li>
+            <li><strong style="color:var(--text)">Route Comparison</strong> — side-by-side comparison of multiple route options ranked by total duration, distance, and estimated fuel cost.</li>
+            <li><strong style="color:var(--text)">REST API</strong> — FastAPI endpoints for route computation, retrieval, and deletion, consumed by the React frontend.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Tech Stack</h2>
+          <div class="tech-list" style="margin-bottom:2rem;">
+            <span class="tech-item">React</span>
+            <span class="tech-item">FastAPI</span>
+            <span class="tech-item">Python</span>
+            <span class="tech-item">PostgreSQL</span>
+            <span class="tech-item">OSMnx</span>
+            <span class="tech-item">NetworkX</span>
+            <span class="tech-item">Leaflet</span>
+            <span class="tech-item">GeoJSON</span>
+          </div>
+
+          <h2>Algorithm Detail</h2>
+          <ul class="feature-list">
+            <li>Road network loaded as a directed graph via OSMnx from OpenStreetMap data.</li>
+            <li>Edge weights set to travel duration using speed limits + real-time congestion multipliers.</li>
+            <li>Dijkstra's algorithm implemented via NetworkX <code style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent);background:rgba(200,245,96,0.08);padding:0.1em 0.4em;border-radius:3px;">shortest_path</code> with custom weight function.</li>
+            <li>Routes returned as ordered node sequences, converted to GeoJSON LineString for frontend rendering.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="project-nav">
+        <a href="project-ml.html">← Previous Project</a>
+        <a href="project-geo.html">Next Project →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">JS</span>
+      <nav class="footer-nav">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <span class="footer-copy">© 2026 Jonathan Sung</span>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
